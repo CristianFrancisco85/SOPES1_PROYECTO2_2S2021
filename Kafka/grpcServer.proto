@@ -1,0 +1,23 @@
+//protoc --go-grpc_out=require_unimplemented_servers=false:./ --go_out=./ grpcServer.proto
+
+syntax = "proto3";
+option go_package = "./gRPC-Server";
+package main;
+
+message GameRequest {
+	string name = 1;
+	int32 players = 2;
+}
+
+message GameReply {
+	string body = 1;
+}
+
+message GameWinner {
+	string game = 1;
+	int32 player = 2;
+}
+
+service GameService {
+	rpc SendMessage(GameRequest) returns (GameReply) {}
+}
