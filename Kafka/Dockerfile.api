@@ -1,0 +1,9 @@
+FROM golang:1.15-alpine
+LABEL maintainer="Cristian Meoño <cristianfrancisco85@gmail.com>"
+WORKDIR /app
+COPY . .
+RUN go mod download
+RUN cd client && go build && cd ..
+RUN cd server && go build && cd ..
+EXPOSE 8080
+CMD ./client/client & ./server/server && fg

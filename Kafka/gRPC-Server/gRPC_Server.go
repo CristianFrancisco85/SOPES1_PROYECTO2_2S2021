@@ -2,7 +2,7 @@ package gRPC_Server
 
 import (
 	"context"
-	logTwo "grpcTutorial/logger"
+	"encoding/json"
 	"log"
 	"math/rand"
 	"os"
@@ -10,7 +10,6 @@ import (
 	"time"
 
 	kafka "github.com/segmentio/kafka-go"
-	"google.golang.org/protobuf/proto"
 )
 
 type Server struct {
@@ -38,7 +37,6 @@ func (s *Server) SendMessage(ctx context.Context, in *GameRequest) (*GameReply, 
 	if in.GetName() == "random" {
 		winner.Game = "random"
 		winner.Player = random(int(in.GetPlayers()))
-		producerHandler(kafkaWriter, &winner)
 	}
 	if in.GetName() == "evenNumber" {
 		winner.Game = "evenNumber"
@@ -53,17 +51,17 @@ func (s *Server) SendMessage(ctx context.Context, in *GameRequest) (*GameReply, 
 }
 
 func producerHandler(kafkaWriter *kafka.Writer, myItem *GameWinner) {
-	logTwo.Logger.Info("Sending Message...")
 
 	id := strconv.Itoa(rand.Int())
-	bytes, err := proto.Marshal(myItem)
+	//Convert proto to string
+
+	data, err := json.MarshalIndent(myItem, "", "\t")
 	if err != nil {
-		logTwo.Logger.Errorf("Error in marshaling the message: %s", err.Error())
 		return
 	}
 	msg := kafka.Message{
 		Key:   []byte(id),
-		Value: bytes,
+		Value: data,
 	}
 	err = kafkaWriter.WriteMessages(context.Background(), msg)
 	if err != nil {
