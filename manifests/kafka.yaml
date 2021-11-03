@@ -73,6 +73,10 @@ spec:
           value: "squidgame"
         - name: GroupID
           value: "squidgame"
+        - name: redisURL
+          value: "35.225.83.23:6379"
+        - name: redisPassword
+          value: "password85@"
 ---
 apiVersion: v1
 kind: Service

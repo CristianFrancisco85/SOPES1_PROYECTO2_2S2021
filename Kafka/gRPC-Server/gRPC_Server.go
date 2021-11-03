@@ -36,16 +36,20 @@ func (s *Server) SendMessage(ctx context.Context, in *GameRequest) (*GameReply, 
 	var winner GameWinner
 	if in.GetName() == "random" {
 		winner.Game = "random"
+		winner.Gameid = 1
 		winner.Player = random(int(in.GetPlayers()))
 	}
 	if in.GetName() == "evenNumber" {
 		winner.Game = "evenNumber"
+		winner.Gameid = 2
 		winner.Player = evenNumber(int(in.GetPlayers()))
 	}
 	if in.GetName() == "oddNumber" {
 		winner.Game = "oddNumber"
+		winner.Gameid = 3
 		winner.Player = oddNumber(int(in.GetPlayers()))
 	}
+	winner.Players = in.GetPlayers()
 	producerHandler(kafkaWriter, &winner)
 	return &GameReply{Body: "OK"}, nil
 }
