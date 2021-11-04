@@ -26,9 +26,14 @@ return(
             <Drawer anchor='left' open={sideMenu} onClose={()=>setSideMenu(false)}>
                 <Box sx={{ width:250 }} role="presentation"></Box>
                 <List>
-                    <ListItem button component={LinkRouter}  to="/about" >
+                    <ListItem button component={LinkRouter}  to="/home" >
                         <Link underline="none" >
-                            <ListItemText primary={'Reportes'}></ListItemText>
+                            <ListItemText primary={'Home'}></ListItemText>
+                        </Link>
+                    </ListItem>
+                    <ListItem button component={LinkRouter}  to="/logs" >
+                        <Link underline="none" >
+                            <ListItemText primary={'Logs'}></ListItemText>
                         </Link>
                     </ListItem>
                 </List>
