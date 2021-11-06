@@ -54,3 +54,22 @@ kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n kafka
 ```
 kubectl apply -f main.yaml
 ```
+## Actualizando Kubectl 
+Se debe usar una version de Kubectl =>1.20 para usar Chaos Mesh
+```
+curl -LO https://dl.k8s.io/release/v1.20.0/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+## Instalando Chaos Mesh
+```
+curl -sSL https://mirrors.chaos-mesh.org/v2.0.3/install.sh | bash
+```
+## Abrir Dashboard
+Ester comando debe ser ejecutadod esde nuestra maquina local
+```
+kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
+```
+## Aplicar Experimentos
+```
+
+```
