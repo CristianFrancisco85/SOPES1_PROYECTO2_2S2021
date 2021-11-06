@@ -2,10 +2,6 @@ var express = require('express')
 var cors = require('cors')
 var app = express()
 var port = process.env.PORT || 4000;
-app.use(cors({
-    origin:'*',
-    methods:'POST,GET'
-}))
 var server = require('http').createServer(app)
 
 //Connection to mongodb
@@ -20,7 +16,6 @@ const clientRedis = redis.createClient(6379, '35.225.83.23',{password: 'password
 const io = require("socket.io")(server,{
     cors: {
         origin: "*",
-        methods: ["GET", "POST"]
     }
 })
 let interval
