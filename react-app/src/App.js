@@ -5,6 +5,7 @@ import NavBar from './components/navbar';
 import { useEffect,useState } from 'react';
 import io from 'socket.io-client';
 import { GlobalContext } from './globalContext';
+import Single from './components/single';
 
 const App = () => {
   
@@ -26,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
 
-    const socket = io('http://localhost:4000');
+    const socket = io('http://35.239.53.123/');
     socket.on('connect', () => {
       console.log('Connected to server');
     })
@@ -71,6 +72,7 @@ return(
   <Switch>
       <Route  exact path="/home" component={Home}/>
       <Route  exact path="/logs" component={Logs}/>
+      <Route  exact path="/single" component={Single}/>
       <Redirect from="/" to="/home" />
   </Switch>
   </BrowserRouter>

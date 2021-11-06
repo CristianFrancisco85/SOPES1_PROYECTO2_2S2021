@@ -36,6 +36,11 @@ return(
                             <ListItemText primary={'Logs'}></ListItemText>
                         </Link>
                     </ListItem>
+                    <ListItem button component={LinkRouter}  to="/single" >
+                        <Link underline="none" >
+                            <ListItemText primary={'Real Time Player Stats'}></ListItemText>
+                        </Link>
+                    </ListItem>
                 </List>
             </Drawer>
 
