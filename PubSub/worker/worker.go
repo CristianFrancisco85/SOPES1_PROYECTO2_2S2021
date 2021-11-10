@@ -33,7 +33,7 @@ type WinnerLog struct {
 
 func main() {
 
-	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "./GCPKey.json")
+	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "./worker/GCPKey.json")
 
 	psctx := context.Background()
 	proj := "sapient-ground-324600"

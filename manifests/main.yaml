@@ -1,3 +1,4 @@
+#Deployments de Kafka
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -80,10 +81,82 @@ spec:
           value: "password85@"
 status: {}
 ---
+#Deployments de PubSub
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pubsub-api-deployment
+  namespace: squidgame
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pubsub-api
+  template:
+    metadata:
+      labels:
+        app: pubsub-api
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+      - name: pubsub-producer
+        image: cristianfrancisco85/pubsub-api
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+          periodSeconds: 30
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pubsub-worker-deployment
+  namespace: squidgame
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pubsub-worker
+  template:
+    metadata:
+      labels:
+        app: pubsub-worker
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+      - name: pubsub-worker
+        image: cristianfrancisco85/pubsub-worker
+        env:
+        - name: redisURL
+          value: "35.225.83.23:6379"
+        - name: redisPassword
+          value: "password85@"
+status: {}
+---
+#Deployment de Web App
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-app
+  namespace: squidgame
 spec:
   replicas: 1
   selector:
@@ -106,10 +179,11 @@ spec:
         ports:
         - containerPort: 4000
 ---
+#ClusterIP de Kafka
 apiVersion: v1
 kind: Service
 metadata:
-  name: main-clusterip
+  name: kafka-clusterip
   namespace: squidgame
 spec:
   selector:
@@ -119,10 +193,26 @@ spec:
     protocol: TCP
     targetPort: 8080
 ---
+#ClusterIP de PubSub
+apiVersion: v1
+kind: Service
+metadata:
+  name: pubsub-clusterip
+  namespace: squidgame
+spec:
+  selector:
+    app: pubsub-api
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+---
+#ClusterIP de NodeJS
 apiVersion: v1
 kind: Service
 metadata:
   name: web-app-clusterip
+  namespace: squidgame
 spec:
   ports:
   - port: 80
@@ -134,6 +224,7 @@ spec:
   selector:
     role: web-app
 ---
+#Ingress de Kafka y PubSub
 apiVersion: networking.k8s.io/v1 
 kind: Ingress 
 metadata: 
@@ -151,10 +242,11 @@ spec:
         pathType: Prefix 
         backend: 
           service: 
-            name: main-clusterip 
+            name: kafka-clusterip 
             port: 
               number: 8080
 ---
+#Ingress de NodeJS
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -173,10 +265,12 @@ spec:
             port: 
               number: 4000
 ---
+#NodePort de React App
 apiVersion: v1
 kind: Service
 metadata:
   name: react-dashboard
+  namespace: squidgame
 spec:
   type: NodePort
   ports:
@@ -186,6 +280,7 @@ spec:
   selector:
     role: web-app
 ---
+#ConfigMap para NGINX de Error Injector
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -203,6 +298,7 @@ data:
         }
     }
 ---
+#Deployment de Error Injector
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -234,6 +330,7 @@ spec:
           configMap:
             name: error-injector
 ---
+#ClusterIP de Error Injector
 apiVersion: v1
 kind: Service
 metadata:
@@ -246,15 +343,18 @@ spec:
   selector:
     app: error-injector
 ---
+#Inyeccion de Traffic Split
 apiVersion: split.smi-spec.io/v1alpha1
 kind: TrafficSplit
 metadata:
   name: error-split
   namespace: squidgame
 spec:
-  service: main-clusterip
+  service: kafka-clusterip
   backends:
-  - service: main-clusterip
-    weight: 700m
+  - service: kafka-clusterip
+    weight: 500m
+  - service: pubsub-clusterip
+    weight: 500m
   - service: error-injector
-    weight: 300m
+    weight: 0m

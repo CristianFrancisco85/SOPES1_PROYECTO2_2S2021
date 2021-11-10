@@ -4,6 +4,5 @@ WORKDIR /app
 COPY . .
 RUN go mod download
 RUN cd worker && go build && cd ..
-RUN export GOOGLE_APPLICATION_CREDENTIALS=./gRPC-Server/GCPKey.json
 EXPOSE 8080
 CMD ["./worker/worker"]
