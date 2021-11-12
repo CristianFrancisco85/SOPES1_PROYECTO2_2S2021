@@ -1,8 +1,8 @@
 kind: Schedule
 apiVersion: chaos-mesh.org/v1alpha1
 metadata:
-  name: pod-container-experiment
-  namespace: chaos-testing
+  name: container-kill-experiment
+  namespace: squidgame
 spec:
   schedule: '@every 15s'
   startingDeadlineSeconds: null
@@ -16,6 +16,8 @@ spec:
       labelSelectors:
         app: kafka-strimzi-api
     mode: one
+    containerNames:
+      - kafka-strimzi-producer
     action: container-kill
     duration: 5m
     gracePeriod: 0
