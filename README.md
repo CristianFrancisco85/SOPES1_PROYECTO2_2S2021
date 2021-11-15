@@ -23,13 +23,13 @@ kubectl get services -n nginx-ingress
 ## Instalando Linkerd
 ```
 curl -fsL https://run.linkerd.io/install | sh
+export PATH=$PATH:/home/{YOUR-USER}/.linkerd2/bin
 linkerd version
 linkerd check --pre
 linkerd install | kubectl apply -f -
 linkerd check
 linkerd viz install | kubectl apply -f -
 linkerd check
-export PATH=$PATH:/home/{YOUR-USER}/.linkerd2/bin
 linkerd viz dashboard
 ```
 ## Injectando NGINX ingress-controller
@@ -69,7 +69,4 @@ Ester comando debe ser ejecutadod esde nuestra maquina local
 ```
 kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
 ```
-## Aplicar Experimentos
-```
 
-```
