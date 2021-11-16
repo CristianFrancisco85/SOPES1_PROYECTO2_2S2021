@@ -52,7 +52,7 @@ kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n squidgame
 ```
 ## Deploy de Proyecto
 ```
-kubectl apply -f main.yaml
+kubectl apply -f main.yaml -n squidgame
 ```
 ## Actualizando Kubectl 
 Se debe usar una version de Kubectl =>1.20 para usar Chaos Mesh
