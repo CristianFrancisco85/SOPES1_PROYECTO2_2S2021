@@ -23,13 +23,13 @@ kubectl get services -n nginx-ingress
 ## Instalando Linkerd
 ```
 curl -fsL https://run.linkerd.io/install | sh
+export PATH=$PATH:/home/{YOUR-USER}/.linkerd2/bin
 linkerd version
 linkerd check --pre
 linkerd install | kubectl apply -f -
 linkerd check
 linkerd viz install | kubectl apply -f -
 linkerd check
-export PATH=$PATH:/home/{YOUR-USER}/.linkerd2/bin
 linkerd viz dashboard
 ```
 ## Injectando NGINX ingress-controller
@@ -48,11 +48,11 @@ Esperaremos a que el servicio de Kafka este arriba
 ```
 kubectl create -f 'https://strimzi.io/install/latest?namespace=squidgame' -n squidgame
 kubectl apply -f https://strimzi.io/examples/latest/kafka/kafka-persistent-single.yaml -n squidgame
-kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n kafka
+kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n squidgame
 ```
 ## Deploy de Proyecto
 ```
-kubectl apply -f main.yaml
+kubectl apply -f main.yaml -n squidgame
 ```
 ## Actualizando Kubectl 
 Se debe usar una version de Kubectl =>1.20 para usar Chaos Mesh
@@ -65,11 +65,10 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 curl -sSL https://mirrors.chaos-mesh.org/v2.0.3/install.sh | bash
 ```
 ## Abrir Dashboard
-Ester comando debe ser ejecutadod esde nuestra maquina local
+Ester comando debe ser ejecutadod desde nuestra maquina local
 ```
 kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
 ```
-## Aplicar Experimentos
-```
 
-```
+<h1><a href="Documentacion/Manual_Tecnico.pdf">Manual Técnico</a></h1>
+<h1><a href="Documentacion/Manual_Usuario.pdf">Manual de Usuario</a></h1>
