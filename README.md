@@ -70,3 +70,5 @@ Ester comando debe ser ejecutadod esde nuestra maquina local
 kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
 ```
 
+<h1><a href="Documentacion/Manual_Tecnico.pdf">Manual Técnico</a></h1>
+<h1><a href="Documentacion/Manual_Usuario.pdf">Manual de Usuario</a></h1>
