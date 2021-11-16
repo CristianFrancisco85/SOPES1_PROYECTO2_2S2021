@@ -65,7 +65,7 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 curl -sSL https://mirrors.chaos-mesh.org/v2.0.3/install.sh | bash
 ```
 ## Abrir Dashboard
-Ester comando debe ser ejecutadod esde nuestra maquina local
+Ester comando debe ser ejecutadod desde nuestra maquina local
 ```
 kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
 ```
