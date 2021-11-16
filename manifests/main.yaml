@@ -235,7 +235,7 @@ metadata:
   namespace: squidgame
 spec: 
   rules: 
-  - host: 35.239.53.123.nip.io
+  - host: 104.197.35.114.nip.io
     http: 
       paths: 
       - path: /
@@ -353,8 +353,8 @@ spec:
   service: kafka-clusterip
   backends:
   - service: kafka-clusterip
-    weight: 500m
+    weight: 400m
   - service: pubsub-clusterip
-    weight: 500m
+    weight: 400m
   - service: error-injector
-    weight: 0m
+    weight: 200m

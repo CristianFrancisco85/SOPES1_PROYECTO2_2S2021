@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
 
-    const socket = io('http://35.239.53.123/');
+    const socket = io('http://104.197.35.114/');
     socket.on('connect', () => {
       console.log('Connected to server');
     })
@@ -61,7 +61,7 @@ const App = () => {
     })
 
 
-  }, []);
+  },[]);
   
 
 return(

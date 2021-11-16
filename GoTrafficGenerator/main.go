@@ -25,7 +25,7 @@ func main() {
 
 	messages := make(chan string)
 
-	var LOADBALANCER_URL string = "35.239.53.123.nip.io"
+	var LOADBALANCER_URL string = "104.197.35.114.nip.io"
 	//fmt.Println("Ingrese EndPonit: ")
 	//fmt.Scanf("%s", &LOADBALANCER_URL)
 
