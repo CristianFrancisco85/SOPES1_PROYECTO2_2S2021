@@ -1,7 +1,8 @@
 # Sistemas Operativos 1, Segundo Semestre 2021, SquidGame
 
-## Requisitos
-- Cloud Shell
+## Arquitectura
+<img src="Arquitectura.png"></img>
+
 ## Iniciando Cluster
 ```
 gcloud container clusters create proyecto-cluster --num-nodes=3 --tags=all-in,all-out --machine-type=n1-standard-1 --no-enable-network-policy --region=us-central1-a --project={PROJECT-ID}
